@@ -62,7 +62,6 @@ class HBarChart extends Component {
 
   calculateChart = () => {
 		const { svgWidth, svgHeight, svgMargin, xScale, yScale } = this.state;
-		const { tData } = this.props;
 		const width = svgWidth - svgMargin.left - svgMargin.right,
 					height = svgHeight - svgMargin.top - svgMargin.bottom,
 					margin = svgMargin;
