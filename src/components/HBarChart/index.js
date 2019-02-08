@@ -28,11 +28,11 @@ class HBarChart extends Component {
 				.scale(x);
 
 		const yAxis = d3
-				.axisRight()
+				.axisLeft()
 				.scale(y)
 				.tickSize(0)
-    		.tickPadding(6);
-		
+				.tickPadding(6);
+
 		const svg = d3
 				.select('#container')
 				.append('svg')
@@ -47,13 +47,13 @@ class HBarChart extends Component {
 		}))
 		.then(data => {
 			x.domain(d3.extent(data, d => parseInt(d.value))).nice()
-			y.domain(data.map(d => d.name))
+			y.domain(data.map(d => `${d.name} ${d.value}`))
 			svg.selectAll('.bar')
 				.data(data)
 				.enter().append('rect')
 				.attr('class', d => 'bar bar--' + (d.value < 0 ? 'negative' : 'positive'))
 				.attr('x', d => x(Math.min(0, d.value)))
-				.attr('y', d => y(d.name))
+				.attr('y', d => y(`${d.name} ${d.value}`))
 				.attr('width', d => Math.abs(x(d.value) - x(0)))
 				.attr('height', y.bandwidth);
 
@@ -64,8 +64,27 @@ class HBarChart extends Component {
 
   		svg.append('g')
 				.attr('class', 'y axis')
-				.attr('transform', 'translate(' + x(0) + ',0)')
-				.call(yAxis);
+				.attr('transform', 'translate(' + x(0) + ', 0)')
+				.call(yAxis)
+				.selectAll('text').remove();
+
+			svg.append('g')
+				.attr('class', 'yLabel axis')
+				.attr('transform', 'translate(0, 0)')
+				.call(yAxis)
+				.call(g => g.select('.domain').remove());
+
+			svg.selectAll('g.yLabel .tick')
+				.filter(d => parseInt(d.slice(2)) > 0)
+				.select('text')
+				.style('color', 'steelblue')
+				.style('font-size', '14px');
+
+			svg.selectAll('g.yLabel .tick')
+				.filter(d => parseInt(d.slice(2)) <= 0)
+				.select('text')
+				.style('color', 'darkorange')
+				.style('font-size', '14px');;
 		});
 	}
 
@@ -87,7 +106,7 @@ HBarChart.defaultProps = {
 	data: null,
   width: 1000,
 	height: 600,
-	margin: { top: 20, right: 5, bottom: 20, left: 35 },
+	margin: { top: 20, right: 5, bottom: 20, left: 60 },
 };
 
 export default HBarChart;
