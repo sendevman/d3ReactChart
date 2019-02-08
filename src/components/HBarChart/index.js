@@ -1,54 +1,59 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
-import tData from './data.tsv';
 
 class HBarChart extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			// svgWidth: props.width,
-			// svgHeight: props.height,
-			// svgMargin: props.margin,
-			// padding: props.padding,
+			svgWidth: props.width,
+			svgHeight: props.height,
+			svgMargin: props.margin,
+			padding: props.padding,
 
-			// xScale: d3
-			// 	.scaleBand()
-			// 	.range([props.margin.left, props.width - props.margin.right])
-			// 	.padding(props.padding),
-			// yScale: d3
-			// 	.scaleLinear()
-			// 	.range([props.height - props.margin.bottom, props.margin.top]),
-			// xAxisRef: null,
-			// yAxisRef: null,
+			xScale: d3
+				.scaleLinear()
+				.range([props.margin.left, props.width - props.margin.right - props.margin.left]),
+			yScale: d3
+				.scaleBand()
+				.range([props.margin.top, props.height - props.margin.bottom - props.margin.top])
+				.paddingInner(props.padding)
+				.paddingOuter(props.padding),
+			xAxisRef: null,
+			yAxisRef: null,
 		};
 
-		// this.xAxis = d3.axisBottom().scale(this.state.xScale);
-    // this.yAxis = d3
-    //   .axisRight()
-    //   .scale(this.state.yScale)
-		// 	.tickFormat(d => `${d * 100}%`);
+		this.xAxis = d3
+			.axisBottom()
+			.scale(this.state.xScale);
+    this.yAxis = d3
+      .axisRight()
+      .scale(this.state.yScale)
+			.tickSize(0)
+    	.tickPadding(6);
 	}
 
 	componentDidMount() {
-    this.calculateChart();
+		if (this.props.data) {
+			this.calculateChart();
+		}
 	};
 
 	componentDidUpdate() {
-    // d3.select(this.state.xAxisRef).call(this.xAxis);
-    // d3.select(this.state.yAxisRef).call(this.yAxis);
+    d3.select(this.state.xAxisRef).call(this.xAxis);
+    d3.select(this.state.yAxisRef).call(this.yAxis);
 	}
 
-	// xAxisRef = element => {
-  //   this.setState({ xAxisRef: element });
-  //   d3.select(element).call(this.xAxis);
-	// };
+	xAxisRef = element => {
+    this.setState({ xAxisRef: element });
+    d3.select(element).call(this.xAxis);
+	};
 
-	// yAxisRef = element => {
-  //   this.setState({ yAxisRef: element });
-  //   d3.select(element).call(this.yAxis);
-	// };
+	yAxisRef = element => {
+    this.setState({ yAxisRef: element });
+    d3.select(element).call(this.yAxis);
+	};
 
 	type = d => {
 		d.value = +d.value;
@@ -56,82 +61,62 @@ class HBarChart extends Component {
 	};
 
   calculateChart = () => {
-		var margin = {top: 20, right: 30, bottom: 40, left: 30},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+		const { svgWidth, svgHeight, svgMargin, xScale, yScale } = this.state;
+		const { tData } = this.props;
+		const width = svgWidth - svgMargin.left - svgMargin.right,
+					height = svgHeight - svgMargin.top - svgMargin.bottom,
+					margin = svgMargin;
 
-		var x = d3.scaleLinear()
-				.range([0, width]);
-
-		var y = d3.scaleBand()
-				.range([0, height])
-				.paddingInner(0.2);
-
-		var xAxis = d3.axisBottom()
-				.scale(x);
-
-		var yAxis = d3.axisRight()
-				.scale(y)
-				.tickSize(0)
-    		.tickPadding(6);
-		
-		var svg = d3.select("#container").append("svg")
+		const svg = d3.select("#container svg")
 				.attr("width", width + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom)
-				.append("g")
-				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+				.append("g");
 
-		d3.tsv(tData, d => ({
+		d3.tsv(this.props.data, d => ({
 			name: d.name,
 			value: d.value,
 		}))
 		.then(data => {
-			x.domain(d3.extent(data, d => parseInt(d.value))).nice()
-			y.domain(data.map(d => d.name))
-			svg.selectAll(".bar")
-					.data(data)
-					.enter().append("rect")
-					.attr("class", d => "bar bar--" + (d.value < 0 ? "negative" : "positive"))
-					.attr("x", d => x(Math.min(0, d.value)))
-					.attr("y", d => y(d.name))
-					.attr("width", d => Math.abs(x(d.value) - x(0)))
-					.attr("height", y.bandwidth);
-
-			svg.append("g")
-				.attr("class", "x axis")
-				.attr("transform", "translate(0," + height + ")")
-				.call(xAxis);
-
-  		svg.append("g")
-				.attr("class", "y axis")
-				.attr("transform", "translate(" + x(0) + ",0)")
-				.call(yAxis);
+			this.setState({
+				xScale: xScale.domain(d3.extent(data, d => parseInt(d.value))).nice(),
+				yScale: yScale.domain(data.map(d => d.name)),
+			}, () => {
+				svg.selectAll(".bar")
+						.data(data)
+						.enter().append("rect")
+						.attr("class", d => "bar bar--" + (d.value < 0 ? "negative" : "positive"))
+						.attr("x", d => this.state.xScale(Math.min(0, d.value)))
+						.attr("y", d => this.state.yScale(d.name))
+						.attr("width", d => Math.abs(xScale(d.value) - this.state.xScale(0)))
+						.attr("height", this.state.yScale.bandwidth);
+			});
 		});
 	}
 
   render() {
-		const { svgWidth, svgHeight, svgMargin } = this.state;
+		const { svgHeight, svgMargin, xScale } = this.state;
 		return (
 			<div id="container">
-				{/* <svg id="hbarchart" width={svgWidth} height={svgHeight}>
-					<g id="wrapper" transform="translate(40, 20)">
-  				</g>
+				<svg id="hbarchart">
 					<g>
 						<g
+							className="x axis"
 							ref={this.xAxisRef}
-							transform={`translate(0, ${svgHeight - svgMargin.bottom})`}
+							transform={`translate(0, ${svgHeight - svgMargin.top - svgMargin.bottom})`}
 						/>
 						<g
+							className="y axis"
 							ref={this.yAxisRef}
-							transform={`translate(${svgMargin.left}, 0)`} />
+							transform={`translate(${xScale(0)}, 0)`} />
 					</g>
-				</svg> */}
+				</svg>
 			</div>
 		);
 	}
 }
 
 HBarChart.propTypes = {
+	data: PropTypes.element,
   width: PropTypes.number,
 	height: PropTypes.number,
 	margin: PropTypes.object,
@@ -139,6 +124,7 @@ HBarChart.propTypes = {
 };
 
 HBarChart.defaultProps = {
+	data: null,
   width: 1000,
 	height: 600,
 	margin: { top: 20, right: 5, bottom: 20, left: 35 },
