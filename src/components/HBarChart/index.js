@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
+import './style.css';
 
 class HBarChart extends Component {
 	componentDidMount() {
@@ -46,7 +47,7 @@ class HBarChart extends Component {
 				.tickPadding(6);
 
 		const svg = d3
-				.select('#container')
+				.select('#hbarchart_container')
 				.append('svg')
 				.attr('width', svgWidth + margin.left + margin.right)
 				.attr('height', svgHeight + margin.top + margin.bottom)
@@ -107,7 +108,7 @@ class HBarChart extends Component {
 
   render() {
 		return (
-			<div id="container" />
+			<div id="hbarchart_container" />
 		);
 	}
 }
