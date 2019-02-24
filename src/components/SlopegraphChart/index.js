@@ -24,7 +24,7 @@ class SlopegraphChart extends Component {
     const svgHeight = height - margin.top - margin.bottom;
 
 		const svg = d3
-				.select('#ridgelinechart_container')
+				.select('#slopegraphchart_container')
 				.append('svg')
 				.attr('width', svgWidth + margin.left + margin.right)
 				.attr('height', svgHeight + margin.top + margin.bottom)
@@ -110,7 +110,7 @@ class SlopegraphChart extends Component {
 
   render() {
 		return (
-			<div id="ridgelinechart_container" />
+			<div id="slopegraphchart_container" />
 		);
 	}
 }
