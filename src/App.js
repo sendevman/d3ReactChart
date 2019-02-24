@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 
 import HBarChart from './components/HBarChart';
 import RidgelineChart from './components/RidgelineChart';
+import AdditionalRidgelineChart from './components/AdditionalRidgelineChart';
 import SlopegraphChart from './components/SlopegraphChart';
+import DifferentChart from './components/DifferentChart';
 import './App.css';
 import tdata from './data.tsv';
 import cdata from './data.csv';
 import sdata from './sdata.csv';
+import rdata from './ridgelineData.json';
 
 class App extends Component {
   render() {
@@ -16,6 +19,8 @@ class App extends Component {
           <HBarChart data={tdata} />
           <RidgelineChart data={cdata} />
           <SlopegraphChart data={sdata} />
+          <AdditionalRidgelineChart data={rdata} />
+          <DifferentChart />
         </header>
       </div>
     );

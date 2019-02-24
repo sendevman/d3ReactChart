@@ -170,7 +170,6 @@ class Slopegraph {
 	textHeight( h ) {
 		if ( arguments.length ) {
 			this.min_needed_dist = h;
-			console.log(h);
 			this.cached = undefined;
 			return this;
 		}
