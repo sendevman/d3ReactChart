@@ -48,7 +48,6 @@ class DifferentChart extends Component {
 		// 	.append('g')
 		// 	.call(d3.axisLeft(yName));
 
-		const parseDate = d3.timeParse("%Y%m%d");
 		const initdata = [
 			{date: '2011-10-01T00:00', value0: 63.4, value1: 62.7},
 			{date: '2011-10-02T00:00', value0: 58, value1: 59.9},
@@ -98,7 +97,6 @@ class DifferentChart extends Component {
 			value1: d.value1, // The secondary comparison value.
 		}));
 		data.y = "°F"
-		// console.log(data);
 		const x = d3.scaleTime()
 			.domain(d3.extent(data, d => d.date))
 			.range([margin.left, width - margin.right])

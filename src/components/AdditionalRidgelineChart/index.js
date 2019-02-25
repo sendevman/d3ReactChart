@@ -49,25 +49,10 @@ class AdditionalRidgelineChart extends Component {
 			.call(d3.axisLeft(yName));
 
 		const allDensity = categories.map(d => ({ key: d, density: data[d].density, lower_bound: data[d].lower_bound, upper_bound: data[d].upper_bound	}));
-		// console.log('here', allDensity);
-		// svg.selectAll('areas')
-		// 	.data(allDensity)
-		// 	.enter()
-		// 	.append('path')
-		// 	.attr('transform', d => 'translate(0,' + (yName(d.key) - svgHeight) + ')')
-		// 	.attr('stroke', '#000')
-		// 	.attr('stroke-width', 2)
-		// 	.datum(d => d.density)
-		// 	.attr('fill', '#ffffff')
-		// 	.attr('d', d3.line()
-		// 		.curve(d3.curveBasis)
-		// 		.x(d => x(d[0]))
-		// 		.y(d => y(d[1]))
-		// 	);
 		
 		allDensity.forEach(edata => {
 			let nfirst = 0, nSecond = 0, nThird = 0;
-			edata.density.map(densityData => {
+			edata.density.forEach(densityData => {
 				if (densityData[0] < edata.lower_bound) {
 					nfirst = nfirst + 1;
 				} else if (densityData[0] >= edata.lower_bound && densityData[0] < edata.upper_bound) {
@@ -77,48 +62,22 @@ class AdditionalRidgelineChart extends Component {
 				}
 			});
 			const density_first = edata.density.slice(0, nfirst);
-			const density_second = edata.density.slice(nfirst - 1, nfirst + nSecond + 1);
-			const density_third = edata.density.slice(nfirst + nSecond, nfirst + nSecond + nThird);
-			console.log(edata.density, density_first, density_second, density_third);
+			const density_second = edata.density.slice(nfirst - 1, nfirst + nSecond);
+			const density_third = edata.density.slice(nfirst + nSecond - 1, nfirst + nSecond + nThird);
+			const data = [
+				{ density: density_first, fillColor: '#7b7b7b', key: edata.key },
+				{ density: density_second, fillColor: '#3131ff63', key: edata.key },
+				{ density: density_third, fillColor: '#7b7b7b', key: edata.key }
+			]
 			svg.selectAll('areas')
-				.data([{ density: density_first }])
+				.data(data)
 				.enter()
 				.append('path')
-				.attr('transform', 'translate(0,' + (yName(edata.key) - svgHeight) + ')')
-				.attr('stroke', '#000')
+				.attr('transform', d => 'translate(0,' + (yName(d.key) - svgHeight) + ')')
+				.attr('stroke', '#7b7b7b')
+				.attr('fill', d => d.fillColor)
 				.attr('stroke-width', 1)
 				.datum(d => d.density)
-				.attr('fill', '#69b3a2')
-				.attr('d', d3.area()
-					.curve(d3.curveBasis)
-					.x(d => x(d[0]))
-					.y0(height - 120)
-					.y1(d => y(d[1]))
-				);
-			svg.selectAll('areas')
-				.data([{ density: density_second }])
-				.enter()
-				.append('path')
-				.attr('transform', 'translate(0,' + (yName(edata.key) - svgHeight) + ')')
-				.attr('stroke', '#000')
-				.attr('stroke-width', 1)
-				.datum(d => d.density)
-				.attr('fill', '#908753')
-				.attr('d', d3.area()
-					.curve(d3.curveBasis)
-					.x(d => x(d[0]))
-					.y0(height - 120)
-					.y1(d => y(d[1]))
-				);
-			svg.selectAll('areas')
-				.data([{ density: density_third }])
-				.enter()
-				.append('path')
-				.attr('transform', 'translate(0,' + (yName(edata.key) - svgHeight) + ')')
-				.attr('stroke', '#000')
-				.attr('stroke-width', 1)
-				.datum(d => d.density)
-				.attr('fill', '#69b3a2')
 				.attr('d', d3.area()
 					.curve(d3.curveBasis)
 					.x(d => x(d[0]))
