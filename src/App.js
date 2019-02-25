@@ -4,7 +4,6 @@ import HBarChart from './components/HBarChart';
 import RidgelineChart from './components/RidgelineChart';
 import AdditionalRidgelineChart from './components/AdditionalRidgelineChart';
 import SlopegraphChart from './components/SlopegraphChart';
-import DifferentChart from './components/DifferentChart';
 import './App.css';
 import tdata from './data.tsv';
 import cdata from './data.csv';
@@ -20,7 +19,6 @@ class App extends Component {
           <RidgelineChart data={cdata} />
           <SlopegraphChart data={sdata} />
           <AdditionalRidgelineChart data={rdata} />
-          <DifferentChart />
         </header>
       </div>
     );
