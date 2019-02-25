@@ -68,7 +68,7 @@ class AdditionalRidgelineChart extends Component {
 				{ density: density_first, fillColor: '#7b7b7b', key: edata.key },
 				{ density: density_second, fillColor: '#3131ff63', key: edata.key },
 				{ density: density_third, fillColor: '#7b7b7b', key: edata.key }
-			]
+			];
 			svg.selectAll('areas')
 				.data(data)
 				.enter()
