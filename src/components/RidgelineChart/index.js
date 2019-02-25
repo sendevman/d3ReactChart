@@ -70,7 +70,7 @@ class RidgelineChart extends Component {
 				.append('path')
 				.attr('transform', d => 'translate(0,' + (yName(d.key) - svgHeight) + ')')
 				.datum(d => d.density)
-				.attr('fill', '#69b3a2')
+				.attr('fill', '#69b3a280')
 				.attr('stroke', '#000')
 				.attr('stroke-width', 1)
 				.attr('d', d3.line()
