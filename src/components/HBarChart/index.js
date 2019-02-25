@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as d3 from 'd3';
+import './style.css';
 
 class HBarChart extends Component {
 	componentDidMount() {
@@ -23,18 +24,30 @@ class HBarChart extends Component {
 				.paddingInner(0.2)
 				.paddingOuter(0.2);
 
+		const yLabel = d3
+				.scaleBand()
+				.range([0, svgHeight])
+				.paddingInner(0.2)
+				.paddingOuter(0.2);
+
 		const xAxis = d3
 				.axisBottom()
 				.scale(x);
 
 		const yAxis = d3
-				.axisRight()
+				.axisLeft()
 				.scale(y)
 				.tickSize(0)
-    		.tickPadding(6);
-		
+				.tickPadding(6);
+
+		const yLabelAxis = d3
+				.axisLeft()
+				.scale(yLabel)
+				.tickSize(0)
+				.tickPadding(6);
+
 		const svg = d3
-				.select('#container')
+				.select('#hbarchart_container')
 				.append('svg')
 				.attr('width', svgWidth + margin.left + margin.right)
 				.attr('height', svgHeight + margin.top + margin.bottom)
@@ -46,8 +59,9 @@ class HBarChart extends Component {
 			value: d.value,
 		}))
 		.then(data => {
-			x.domain(d3.extent(data, d => parseInt(d.value))).nice()
-			y.domain(data.map(d => d.name))
+			x.domain(d3.extent(data, d => parseInt(d.value))).nice();
+			y.domain(data.map(d => d.name));
+			yLabel.domain(data.map(d => d.value));
 			svg.selectAll('.bar')
 				.data(data)
 				.enter().append('rect')
@@ -64,14 +78,37 @@ class HBarChart extends Component {
 
   		svg.append('g')
 				.attr('class', 'y axis')
-				.attr('transform', 'translate(' + x(0) + ',0)')
-				.call(yAxis);
+				.attr('transform', 'translate(' + x(0) + ', 0)')
+				.call(yAxis)
+				.selectAll('text').remove();
+
+			svg.append('g')
+				.attr('class', 'ylabelL axis')
+				.attr('transform', 'translate(-30, 0)')
+				.call(yAxis)
+				.call(g => g.select('.domain').remove());
+
+			svg.append('g')
+				.attr('class', 'ylabel axis')
+				.attr('transform', 'translate(0, 0)')
+				.call(yLabelAxis)
+				.call(g => g.select('.domain').remove());
+
+			svg.selectAll('g.ylabel .tick')
+				.filter(d => parseInt(d) > 0)
+				.select('text')
+				.style('color', 'steelblue')
+
+			svg.selectAll('g.ylabel .tick')
+				.filter(d => parseInt(d) <= 0)
+				.select('text')
+				.style('color', 'darkorange')
 		});
 	}
 
   render() {
 		return (
-			<div id="container" />
+			<div id="hbarchart_container" />
 		);
 	}
 }
@@ -87,7 +124,7 @@ HBarChart.defaultProps = {
 	data: null,
   width: 1000,
 	height: 600,
-	margin: { top: 20, right: 5, bottom: 20, left: 35 },
+	margin: { top: 20, right: 5, bottom: 20, left: 65 },
 };
 
 export default HBarChart;
