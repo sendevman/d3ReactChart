@@ -2559,10 +2559,6 @@ d3-shape@1:
   dependencies:
     d3-path "1"
 
-d3-slopegraph@^0.0.2-1:
-  version "0.0.2-1"
-  resolved "https://registry.yarnpkg.com/d3-slopegraph/-/d3-slopegraph-0.0.2-1.tgz#c6365cf2a6b8d4f4c364f35c6c2c31fa3cdd9421"
-
 d3-time-format@2:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/d3-time-format/-/d3-time-format-2.1.3.tgz#ae06f8e0126a9d60d6364eac5b1533ae1bac826b"
@@ -8686,8 +8682,8 @@ websocket-driver@>=0.5.1:
     websocket-extensions ">=0.1.1"
 
 websocket-extensions@>=0.1.1:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.3.tgz#5d2ff22977003ec687a4b87073dfbbac146ccf29"
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.4.tgz#7f8473bc839dfd87608adb95d7eb075211578a42"
 
 whatwg-encoding@^1.0.1, whatwg-encoding@^1.0.3, whatwg-encoding@^1.0.5:
   version "1.0.5"
