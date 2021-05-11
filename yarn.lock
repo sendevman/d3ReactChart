@@ -2559,10 +2559,6 @@ d3-shape@1:
   dependencies:
     d3-path "1"
 
-d3-slopegraph@^0.0.2-1:
-  version "0.0.2-1"
-  resolved "https://registry.yarnpkg.com/d3-slopegraph/-/d3-slopegraph-0.0.2-1.tgz#c6365cf2a6b8d4f4c364f35c6c2c31fa3cdd9421"
-
 d3-time-format@2:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/d3-time-format/-/d3-time-format-2.1.3.tgz#ae06f8e0126a9d60d6364eac5b1533ae1bac826b"
@@ -4051,8 +4047,8 @@ hoopy@^0.1.2:
   resolved "https://registry.yarnpkg.com/hoopy/-/hoopy-0.1.4.tgz#609207d661100033a9a9402ad3dea677381c1b1d"
 
 hosted-git-info@^2.1.4:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.7.1.tgz#97f236977bd6e125408930ff6de3eec6281ec047"
+  version "2.8.9"
+  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.9.tgz#dffc0bf9a21c02209090f2aa69429e1414daf3f9"
 
 hpack.js@^2.1.6:
   version "2.1.6"
