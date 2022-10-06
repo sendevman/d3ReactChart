@@ -2315,8 +2315,8 @@ css-url-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/css-url-regex/-/css-url-regex-1.1.0.tgz#83834230cc9f74c457de59eebd1543feeb83b7ec"
 
 css-what@2.1, css-what@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/css-what/-/css-what-2.1.2.tgz#c0876d9d0480927d7d4920dcd72af3595649554d"
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/css-what/-/css-what-2.1.3.tgz#a6d7604573365fe74686c3f311c56513d88285f2"
 
 cssdb@^4.1.0:
   version "4.3.0"
@@ -2558,10 +2558,6 @@ d3-shape@1:
   resolved "https://registry.yarnpkg.com/d3-shape/-/d3-shape-1.3.4.tgz#358e76014645321eecc7c364e188f8ae3d2a07d4"
   dependencies:
     d3-path "1"
-
-d3-slopegraph@^0.0.2-1:
-  version "0.0.2-1"
-  resolved "https://registry.yarnpkg.com/d3-slopegraph/-/d3-slopegraph-0.0.2-1.tgz#c6365cf2a6b8d4f4c364f35c6c2c31fa3cdd9421"
 
 d3-time-format@2:
   version "2.1.3"
